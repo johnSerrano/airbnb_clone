@@ -59,8 +59,8 @@ def get_book_by_id(place_id, book_id):
     return jsonify(book.to_hash())
 
 
-@app.route("/places/<place_id>/books/<book_id>", methods=["GET"])
-@app.route("/places/<place_id>/books/<book_id>/", methods=["GET"])
+@app.route("/places/<place_id>/books/<book_id>", methods=["PUT"])
+@app.route("/places/<place_id>/books/<book_id>/", methods=["PUT"])
 def update_placebook_by_id(place_id, book_id):
     def update_place(book, place_id):
         places = Place.select().where(Place.id == int(place_id))

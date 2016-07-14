@@ -41,8 +41,8 @@ def get_state_by_id(state_id, city_id):
     return jsonify(city.to_hash())
 
 
-@app.route("/states/<state_id>/cities/<city_id>", methods=["POST"])
-@app.route("/states/<state_id>/cities/<city_id>/", methods=["POST"])
+@app.route("/states/<state_id>/cities/<city_id>", methods=["DELETE"])
+@app.route("/states/<state_id>/cities/<city_id>/", methods=["DELETE"])
 def delete_state_by_id(state_id, city_id):
     try:
         cities = Cities.select().where(city.id == int(city_id))
