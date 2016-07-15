@@ -1,17 +1,39 @@
+#defaults to production
+
 import os
 name = os.environ.get('AIRBNB_ENV')
 
-if (name == "development"):
-    dev = True
-else:
-    dev = False
-
-DEBUG = True if dev else False
-HOST = 'localhost' if dev else '0.0.0.0'
-PORT = 3333 if dev else 3000
+DEBUG = False
+HOST = '0.0.0.0'
+PORT = 3000
 DATABASE = {'host' : 'webone.johnserrano.tech',
-            'user' : 'airbnb_user_dev' if dev else 'airbnb_user_prod',
-            'database' : 'airbnb_dev' if dev else 'airbnb_prod',
-            'port' : 21 if dev else 3306,
+            'user' : 'airbnb_user_prod',
+            'database' : 'airbnb_prod',
+            'port' : 3306,
             'charset' : 'utf8',
-            'password' : os.environ.get('AIRBNB_DATABASE_PWD_DEV') if dev else os.environ.get('AIRBNB_DATABASE_PWD_PROD')}
+            'password' : os.environ.get('AIRBNB_DATABASE_PWD_PROD')
+            }
+
+if name == "development":
+    DEBUG = True
+    HOST = 'localhost'
+    PORT = 3333
+    DATABASE = {'host' : 'webone.johnserrano.tech',
+                'user' : 'airbnb_user_dev'
+                'database' : 'airbnb_dev'
+                'port' : 21
+                'charset' : 'utf8',
+                'password' : os.environ.get('AIRBNB_DATABASE_PWD_DEV')
+                }
+
+elif name == "test":
+    DEBUG = True
+    HOST = 'localhost'
+    PORT = 5555
+    DATABASE = {'host' : 'webone.johnserrano.tech',
+                'user' : 'airbnb_user_test'
+                'database' : 'airbnb_test'
+                'port' : 21
+                'charset' : 'utf8',
+                'password' : os.environ.get('AIRBNB_DATABASE_PWD_TEST')
+                }
