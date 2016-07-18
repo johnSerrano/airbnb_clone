@@ -11,7 +11,7 @@ DATABASE = {'host' : 'webone.johnserrano.tech',
             'database' : 'airbnb_prod',
             'port' : 3306,
             'charset' : 'utf8',
-            'password' : os.environ.get('AIRBNB_DATABASE_PWD_PROD')
+            'password' : os.environ.get('AIRBNB_DATABASE_PWD_PROD'),
             }
 
 if name == "development":
@@ -19,11 +19,11 @@ if name == "development":
     HOST = 'localhost'
     PORT = 3333
     DATABASE = {'host' : 'webone.johnserrano.tech',
-                'user' : 'airbnb_user_dev'
-                'database' : 'airbnb_dev'
-                'port' : 21
+                'user' : 'airbnb_user_dev',
+                'database': 'airbnb_dev',
+                'port' : 21,
                 'charset' : 'utf8',
-                'password' : os.environ.get('AIRBNB_DATABASE_PWD_DEV')
+                'password' : os.environ.get('AIRBNB_DATABASE_PWD_DEV'),
                 }
 
 elif name == "test":
@@ -31,9 +31,9 @@ elif name == "test":
     HOST = 'localhost'
     PORT = 5555
     DATABASE = {'host' : 'webone.johnserrano.tech',
-                'user' : 'airbnb_user_test'
-                'database' : 'airbnb_test'
-                'port' : 21
+                'user' : 'airbnb_user_test',
+                'database' : 'airbnb_test',
+                'port' : 21,
                 'charset' : 'utf8',
-                'password' : os.environ.get('AIRBNB_DATABASE_PWD_TEST')
+                'password' : os.environ.get('AIRBNB_DATABASE_PWD_TEST'),
                 }
