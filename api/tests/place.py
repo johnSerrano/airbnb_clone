@@ -119,7 +119,6 @@ class AirbnbIndexTestCase(unittest.TestCase):
                 "latitude": 14.443,
                 "longitude": 123.321,
             }))
-        print resp.text
         assert(resp.text=="Success")
 
 

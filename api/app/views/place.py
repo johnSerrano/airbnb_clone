@@ -125,9 +125,9 @@ def delete_place_by_id(place_id):
 
 @app.route("/states/<state_id>/cities/<city_id>/places", methods=["GET"])
 # @app.route("/states/<state_id>/cities/<city_id>/places/", methods=["GET"])
-def get_all_places_hdf(place_id, city_id):
+def get_all_places_hdf(state_id, city_id):
     places = []
-    for place in Place.select().where(Place.city.id == city_id):
+    for place in Place.select().where(Place.city == city_id):
         places.append(place.to_hash())
     return jsonify({"places": places})
 
