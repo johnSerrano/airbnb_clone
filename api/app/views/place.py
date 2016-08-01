@@ -18,7 +18,7 @@ def create_places():
     content = request.get_json(force=True)
     if not all(param in content.keys() for param in ["name", "city", "owner", "description", "number_rooms", "number_bathrooms", "max_guest", "price_by_night", "latitude", "longitude"]):
         #ERROR
-        return "Failed: bad input"
+        error_msg(400, 40000, "Missing parameters")
     try:
         place = Place()
         place.name = content["name"]
@@ -33,21 +33,21 @@ def create_places():
         place.longitude = content["longitude"]
         place.save()
     except Exception as e:
-        return "Failed"
-    return "Success"
+        error_msg(400, 400, "Error")
+    error_msg(200, 200, "Success")
 
 
 @app.route("/places/<place_id>", methods=["GET"])
 # @app.route("/places/<place_id>/", methods=["GET"])
 def get_place_by_id_aaa(place_id):
     if not isinstance(int(place_id), int):
-        return "Failed"
+        error_msg(400, 400, "Error")
     places = Place.select().where(Place.id == int(place_id))
     place = None
     for u in places:
         place = u
     if place == None:
-        return "Failed"
+        error_msg(400, 400, "Error")
     return jsonify(place.to_dict())
 
 
@@ -85,7 +85,7 @@ def update_place_by_id(place_id):
         for u in places:
             place = u
         if place == None:
-            return "Failed"
+            error_msg(400, 400, "Error")
         for param in content.keys():
             try:
                 {
@@ -102,7 +102,7 @@ def update_place_by_id(place_id):
                 pass
         place.save()
     except:
-        return "Failed"
+        error_msg(400, 400, "Error")
     return jsonify(place.to_dict())
 
 
@@ -116,11 +116,11 @@ def delete_place_by_id(place_id):
         for u in places:
             place = u
         if place == None:
-            return "Failed"
+            error_msg(400, 400, "Error")
         place.delete_instance()
     except:
-        return "Failed"
-    return "Success"
+        error_msg(400, 400, "Error")
+    error_msg(200, 200, "Success")
 
 
 @app.route("/states/<state_id>/cities/<city_id>/places", methods=["GET"])
@@ -138,14 +138,14 @@ def create_places_fds(state_id, city_id):
     content = request.get_json(force=True)
     if not all(param in content.keys() for param in ["name", "owner", "description", "number_rooms", "number_bathrooms", "max_guest", "price_by_night", "latitude", "longitude"]):
         #ERROR
-        return "Failed: bad input"
+        error_msg(400, 40000, "Missing parameters")
     try:
         cities = City.select().where(City.id == int(city_id))
         city = None
         for u in cities:
             city = u
         if city == None:
-            return "Failed"
+            error_msg(400, 400, "Error")
 
         place = Place()
         place.name = content["name"]
@@ -160,5 +160,5 @@ def create_places_fds(state_id, city_id):
         place.longitude = content["longitude"]
         place.save()
     except Exception as e:
-        return "Failed"
-    return "Success"
+        error_msg(400, 400, "Error")
+    error_msg(200, 200, "Success")

@@ -15,10 +15,10 @@ def get_all_users():
 def create_user():
     content = request.get_json(force=True)
     # if not content:
-    #     return "Failed"
+    #     error_msg(400, 400, "Error")
     if not all(param in content.keys() for param in ["email", "password", "first_name", "last_name", "is_admin"]):
         #ERROR
-        return "Failed: bad input"
+        error_msg(400, 40000, "Missing parameters")
     try:
         user = User()
         user.email = content["email"]
@@ -29,20 +29,20 @@ def create_user():
         user.save()
     except Exception as e:
         print e
-        return "Failed"
-    return "Success"
+        error_msg(400, 400, "Error")
+    error_msg(200, 200, "Success")
 
 @app.route("/users/<user_id>", methods=["GET"])
 # @app.route("/users/<user_id>/", methods=["GET"])
 def get_user_by_id(user_id):
     if not isinstance(int(user_id), int):
-        return "Failed"
+        error_msg(400, 400, "Error")
     users = User.select().where(User.id == int(user_id))
     user = None
     for u in users:
         user = u
     if user == None:
-        return "Failed"
+        error_msg(400, 400, "Error")
     return jsonify(user.to_dict())
 
 @app.route("/users/<user_id>", methods=["PUT"])
@@ -63,13 +63,13 @@ def update_user_by_id(user_id):
     # try:
     content = request.get_json(force=True)
     if not content:
-        return "Failed"
+        error_msg(400, 400, "Error")
     users = User.select().where(User.id == int(user_id))
     user = None
     for u in users:
         user = u
     if user == None:
-        return "Failed"
+        error_msg(400, 400, "Error")
     for param in content.keys():
         try:
             {
@@ -94,8 +94,8 @@ def delete_user_by_id(user_id):
         for u in users:
             user = u
         if user == None:
-            return "Failed"
+            error_msg(400, 400, "Error")
         user.delete_instance()
     except:
-        return "Failed"
-    return "Success"
+        error_msg(400, 400, "Error")
+    error_msg(200, 200, "Success")

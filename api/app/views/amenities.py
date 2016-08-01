@@ -14,17 +14,17 @@ def get_all_amenities():
 # @app.route("/amenities/", methods=["POST"])
 def create_asdfstate():
     content = request.get_json(force=True)
-    if not content: return "Failed"
+    if not content: error_msg(400, 400, "Error")
     if not all(param in content.keys() for param in ["name"]):
         #ERROR
-        return "Failed: bad input"
+        error_msg(400, 40000, "Missing parameters")
     try:
         amenity = Amenity()
         amenity.name = content["name"]
         amenity.save()
     except Exception as e:
-        return "Failed"
-    return "Success"
+        error_msg(400, 400, "Error")
+    error_msg(200, 200, "Success")
 
 @app.route("/amenities/<amen_id>", methods=["GET"])
 # @app.route("/amenities/<amen_id>/", methods=["GET"])
@@ -34,7 +34,7 @@ def get_statdasfde_by_id(amen_id):
     for u in amens:
         amen = u
     if amen == None:
-        return "Failed"
+        error_msg(400, 400, "Error")
     return jsonify(amen.to_dict())
 
 @app.route("/amenities/<amen_id>", methods=["DELETE"])
@@ -45,9 +45,9 @@ def get_staasedfazte_by_id(amen_id):
     for u in amens:
         amen = u
     if amen == None:
-        return "Failed"
+        error_msg(400, 400, "Error")
     amen.delete_instance()
-    return "Success"
+    error_msg(200, 200, "Success")
 
 @app.route("/places/<place_id>/amenities", methods=["GET"])
 # @app.route("/places/<place_id>/amenities/", methods=["GET"])
@@ -69,8 +69,8 @@ def create_new_amenity_in_place(place_id, amenity_id):
         place_amenity.place = pas
         place_amenity.amenity = amens
     except:
-        return "Failed"
-    return "Success"
+        error_msg(400, 400, "Error")
+    error_msg(200, 200, "Success")
 
 #TODO
 @app.route("/places/<place_id>/amenities/<amenity_id>", methods=["DELETE"])
@@ -80,6 +80,6 @@ def delete_amenity_in_place(place_id, amenity_id):
     for u in pasamen:
         amen = u
     if amen == None:
-        return "Failed"
+        error_msg(400, 400, "Error")
     amen.delete_instance()
-    return "Success"
+    error_msg(200, 200, "Success")

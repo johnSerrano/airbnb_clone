@@ -20,22 +20,20 @@ def create_new_booking(place_id):
     content = request.get_json(force=True)
     if not all(param in content.keys() for param in ["user", "is_validated", "date_start", "number_nights"]):
         #ERROR
-        return "Failed: bad input"
+        error_msg(400, 40000, "Missing parameters")
     try:
         users = User.select().where(User.id == int(content['user']))
         user = None
         for u in users:
             user = u
         if user == None:
-            return "Failed, user does not exist"
-
+            error_msg(400, 400, "user does not exist")
         places = Place.select().where(Place.id == int(place_id))
         place = None
         for u in places:
             place = u
         if place == None:
-            return "Failed, place does not exist"
-
+            error_msg(400, 400, "place does not exist")
         placebook = PlaceBook()
         placebook.user = user
         placebook.place = place
@@ -44,8 +42,8 @@ def create_new_booking(place_id):
         placebook.number_nights = content["number_nights"]
         placebook.save()
     except Exception as e:
-        return "Failed"
-    return "Success"
+        error_msg(400, 400, "Error")
+    error_msg(200, 200, "Success")
 
 
 @app.route("/places/<place_id>/books/<book_id>", methods=["GET"])
@@ -56,7 +54,7 @@ def get_book_by_id(place_id, book_id):
     for u in books:
         book = u
     if book == None:
-        return "Failed"
+        error_msg(400, 400, "Error")
     return jsonify(book.to_dict())
 
 
@@ -69,7 +67,7 @@ def update_placebook_by_id(place_id, book_id):
         for u in places:
             place = u
         if place == None:
-            return "Failed, place does not exist"
+            error_msg(400, 400, "place does not exist")
         book.place = place
 
     def update_valid(book, val):
@@ -89,7 +87,7 @@ def update_placebook_by_id(place_id, book_id):
         for u in books:
             book = u
         if book == None:
-            return "Failed"
+            error_msg(400, 400, "Error")
         for param in content.keys():
             try:
                 {
@@ -102,7 +100,7 @@ def update_placebook_by_id(place_id, book_id):
                 pass
         book.save()
     # except:
-    #     return "Failed"
+    #     error_msg(400, 400, "Error")
     return jsonify(book.to_dict())
 
 
@@ -115,8 +113,8 @@ def delete_book_by_id(place_id, book_id):
         for u in books:
             book = u
         if book == None:
-            return "Failed"
+            error_msg(400, 400, "Error")
         book.delete_instance()
     except:
-        return "Failed"
-    return "Success"
+        error_msg(400, 400, "Error")
+    error_msg(200, 200, "Success")

@@ -16,26 +16,26 @@ def create_state():
     content = request.get_json(force=True)
     if not all(param in content.keys() for param in ["name"]):
         #ERROR
-        return "Failed: bad input"
+        return error_msg(400, 40000, "Missing parameters")
     try:
         state = State()
         state.name = content["name"]
         state.save()
     except Exception as e:
-        return "Failed"
-    return "Success"
+        return error_msg(400, 400, "Error")
+    return error_msg(200, 200, "Success")
 
 @app.route("/states/<state_id>", methods=["GET"])
 # @app.route("/states/<state_id>/", methods=["GET"])
 def get_statedddd_by_id(state_id):
     if not isinstance(int(state_id), int):
-        return "Failed"
+        return error_msg(400, 400, "Error")
     states = State.select().where(State.id == int(state_id))
     state = None
     for u in states:
         state = u
     if state == None:
-        return "Failed"
+        return error_msg(400, 400, "Error")
     return jsonify(state.to_dict())
 
 
@@ -48,8 +48,8 @@ def delete_statedddd_by_id(state_id):
         for u in states:
             state = u
         if state == None:
-            return "Failed"
+            return error_msg(400, 400, "Error")
         state.delete_instance()
     except:
-        return "Failed"
-    return "Success"
+        return error_msg(400, 400, "Error")
+    return error_msg(200, 200, "Success")
