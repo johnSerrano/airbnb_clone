@@ -57,3 +57,29 @@ def get_asdhfjahsdfja(place_id):
     for pa in pas:
         ams.append(pa.amenity.to_hash())
     return jsonify(ams)
+
+@app.route("/places/<place_id>/amenities/<amenity_id>", methods=["POST"])
+def create_new_amenity_in_place(place_id, amenity_id):
+    try:
+        pas = PlaceAmenities.select().where(PlaceAmenities.place.id == int(place_id))
+        amens = Amenity.select().where(Amenity.id == int(amen_id))
+        if pas == None or amens == None:
+            throw Exception
+        place_amenity = app.models.place_amenity.PlaceAmenities()
+        place_amenity.place = pas
+        place_amenity.amenity = amens
+    except:
+        return "Failed"
+    return "Success"
+
+#TODO
+@app.route("/places/<place_id>/amenities/<amenity_id>", methods=["DELETE"])
+def delete_amenity_in_place(place_id, amenity_id):
+    pasamen = PlaceAmenities.select().where(PlaceAmenities.place.id == int(place_id) and PlaceAmenities.amenity.id == int(amenity_id))
+    amen = None
+    for u in pasamen:
+        amen = u
+    if amen == None:
+        return "Failed"
+    amen.delete_instance()
+    return "Success"
