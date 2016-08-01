@@ -82,6 +82,23 @@ def test_basemodel():
         return str(e)
     return True
 
+def test_updated_at():
+    try:
+        from app.models.city import City
+        city = City()
+        data = city.to_dict()
+        city.save()
+        up = city.updated_at
+        import time
+        time.sleep(5)
+        city.save()
+        if up == city.updated_at:
+            # throw Exception("updated_at failed to save")
+            return "update_at failed"
+    except Exception as e:
+        return str(e)
+    return True
+
 def test_password_update():
     #TODO
     pass
@@ -100,6 +117,7 @@ def test_all():
         test_place_book,
         test_amenity,
         test_place_amenities,
+        test_updated_at,
 #        test_fail,
     ]
 

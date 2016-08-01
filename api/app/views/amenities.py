@@ -64,7 +64,7 @@ def create_new_amenity_in_place(place_id, amenity_id):
         pas = PlaceAmenities.select().where(PlaceAmenities.place.id == int(place_id))
         amens = Amenity.select().where(Amenity.id == int(amen_id))
         if pas == None or amens == None:
-            throw Exception
+            raise Exception
         place_amenity = app.models.place_amenity.PlaceAmenities()
         place_amenity.place = pas
         place_amenity.amenity = amens
