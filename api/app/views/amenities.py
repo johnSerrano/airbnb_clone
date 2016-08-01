@@ -7,7 +7,7 @@ from flask import jsonify, request
 def get_all_amenities():
     amenities = []
     for amenity in Amenity.select():
-        amenities.append(amenity.to_hash())
+        amenities.append(amenity.to_dict())
     return jsonify({"amenities": amenities})
 
 @app.route("/amenities", methods=["POST"])
@@ -35,7 +35,7 @@ def get_statdasfde_by_id(amen_id):
         amen = u
     if amen == None:
         return "Failed"
-    return jsonify(amen.to_hash())
+    return jsonify(amen.to_dict())
 
 @app.route("/amenities/<amen_id>", methods=["DELETE"])
 # @app.route("/amenities/<amen_id>/", methods=["DELETE"])
@@ -55,7 +55,7 @@ def get_asdhfjahsdfja(place_id):
     pas = PlaceAmenities.select().where(PlaceAmenities.place.id == place_id)
     ams = []
     for pa in pas:
-        ams.append(pa.amenity.to_hash())
+        ams.append(pa.amenity.to_dict())
     return jsonify(ams)
 
 @app.route("/places/<place_id>/amenities/<amenity_id>", methods=["POST"])

@@ -8,7 +8,7 @@ from flask import jsonify, request
 def get_all_places():
     places = []
     for place in Place.select():
-        places.append(place.to_hash())
+        places.append(place.to_dict())
     return jsonify({"places": places})
 
 
@@ -48,7 +48,7 @@ def get_place_by_id_aaa(place_id):
         place = u
     if place == None:
         return "Failed"
-    return jsonify(place.to_hash())
+    return jsonify(place.to_dict())
 
 
 @app.route("/places/<place_id>", methods=["PUT"])
@@ -103,7 +103,7 @@ def update_place_by_id(place_id):
         place.save()
     except:
         return "Failed"
-    return jsonify(place.to_hash())
+    return jsonify(place.to_dict())
 
 
 # AAAAAAAHH!!!!
@@ -128,7 +128,7 @@ def delete_place_by_id(place_id):
 def get_all_places_hdf(state_id, city_id):
     places = []
     for place in Place.select().where(Place.city == city_id):
-        places.append(place.to_hash())
+        places.append(place.to_dict())
     return jsonify({"places": places})
 
 

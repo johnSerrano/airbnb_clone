@@ -15,8 +15,8 @@ class Place(BaseModel):
     latitude = peewee.FloatField()
     longitude = peewee.FloatField()
 
-    def to_hash(self):
-        data = BaseModel.to_hash(self)
+    def to_dict(self):
+        data = BaseModel.to_dict(self)
         data["name"] = self.name
         data["owner_id"] = self.owner.id
         data["city_id"] = self.city.id

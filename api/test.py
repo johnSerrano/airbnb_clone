@@ -15,7 +15,7 @@ def test_user():
     try:
         import app.models.user
         user = app.models.user.User()
-        data = user.to_hash()
+        data = user.to_dict()
     except Exception as e:
         return str(e)
     return True
@@ -24,7 +24,7 @@ def test_state():
     try:
         import app.models.state
         state = app.models.state.State()
-        data = state.to_hash()
+        data = state.to_dict()
     except Exception as e:
         return str(e)
     return True
@@ -33,7 +33,7 @@ def test_city():
     try:
         import app.models.city
         city = app.models.city.City()
-        data = city.to_hash()
+        data = city.to_dict()
     except Exception as e:
         return str(e)
     return True
@@ -42,7 +42,7 @@ def test_place():
     try:
         import app.models.place
         place = app.models.place.Place()
-        data = place.to_hash()
+        data = place.to_dict()
     except Exception as e:
         return str(e)
     return True
@@ -51,7 +51,7 @@ def test_place_book():
     try:
         import app.models.place_book
         place_book = app.models.place_book.PlaceBook()
-        data = place_book.to_hash()
+        data = place_book.to_dict()
     except Exception as e:
         return str(e)
     return True
@@ -60,7 +60,7 @@ def test_amenity():
     try:
         import app.models.amenity
         amenity = app.models.amenity.Amenity()
-        data = amenity.to_hash()
+        data = amenity.to_dict()
     except Exception as e:
         return str(e)
     return True
@@ -77,7 +77,7 @@ def test_basemodel():
     try:
         from app.models.base import BaseModel
         basemodel = BaseModel()
-        data = basemodel.to_hash()
+        data = basemodel.to_dict()
     except Exception as e:
         return str(e)
     return True

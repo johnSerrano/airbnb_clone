@@ -10,8 +10,8 @@ class PlaceBook(BaseModel):
     date_start = peewee.DateTimeField()
     number_nights = peewee.IntegerField(default=1)
 
-    def to_hash(self):
-        data = BaseModel.to_hash(self)
+    def to_dict(self):
+        data = BaseModel.to_dict(self)
         data["place_id"] = self.place.id
         data["user_id"] = self.user.id
         data["is_validated"] = self.is_validated

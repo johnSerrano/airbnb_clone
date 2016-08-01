@@ -10,7 +10,7 @@ import datetime
 def get_all_bookings(place_id):
     books = []
     for book in PlaceBook.select().where(PlaceBook.place == place_id):
-        books.append(book.to_hash())
+        books.append(book.to_dict())
     return jsonify({"books": books})
 
 
@@ -57,7 +57,7 @@ def get_book_by_id(place_id, book_id):
         book = u
     if book == None:
         return "Failed"
-    return jsonify(book.to_hash())
+    return jsonify(book.to_dict())
 
 
 @app.route("/places/<place_id>/books/<book_id>", methods=["PUT"])
@@ -103,7 +103,7 @@ def update_placebook_by_id(place_id, book_id):
         book.save()
     # except:
     #     return "Failed"
-    return jsonify(book.to_hash())
+    return jsonify(book.to_dict())
 
 
 @app.route("/places/<place_id>/books/<book_id>", methods=["DELETE"])

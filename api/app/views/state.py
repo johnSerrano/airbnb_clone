@@ -7,7 +7,7 @@ from flask import jsonify, request
 def get_all_states():
     states = []
     for state in State.select():
-        states.append(state.to_hash())
+        states.append(state.to_dict())
     return jsonify({"states": states})
 
 @app.route("/states", methods=["POST"])
@@ -36,7 +36,7 @@ def get_statedddd_by_id(state_id):
         state = u
     if state == None:
         return "Failed"
-    return jsonify(state.to_hash())
+    return jsonify(state.to_dict())
 
 
 @app.route("/states/<state_id>", methods=["DELETE"])

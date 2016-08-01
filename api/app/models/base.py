@@ -12,7 +12,7 @@ class BaseModel(peewee.Model):
         self.updated_at = datetime.datetime.now()
         peewee.Model.save(self, args, kwargs)
 
-    def to_hash(self):
+    def to_dict(self):
         return {
             "id": self.id,
             "created_at": self.created_at,

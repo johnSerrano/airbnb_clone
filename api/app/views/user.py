@@ -7,7 +7,7 @@ from flask import jsonify, request
 def get_all_users():
     users = []
     for user in User.select():
-        users.append(user.to_hash())
+        users.append(user.to_dict())
     return jsonify({"users": users})
 
 @app.route("/users", methods=["POST"])
@@ -43,7 +43,7 @@ def get_user_by_id(user_id):
         user = u
     if user == None:
         return "Failed"
-    return jsonify(user.to_hash())
+    return jsonify(user.to_dict())
 
 @app.route("/users/<user_id>", methods=["PUT"])
 # @app.route("/users/<user_id>/", methods=["PUT"])
@@ -82,7 +82,7 @@ def update_user_by_id(user_id):
             pass
     user.save()
     # except Exception as e:
-    return jsonify(user.to_hash())
+    return jsonify(user.to_dict())
 
 # AAAAAAAHH!!!!
 @app.route("/users/<user_id>", methods=["DELETE"])

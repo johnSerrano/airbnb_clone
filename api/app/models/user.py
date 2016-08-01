@@ -9,8 +9,8 @@ class User(BaseModel):
     last_name = peewee.FixedCharField(max_length=128)
     is_admin = peewee.BooleanField(default=False)
 
-    def to_hash(self):
-        data = BaseModel.to_hash(self)
+    def to_dict(self):
+        data = BaseModel.to_dict(self)
         data["email"] = self.email
         data["first_name"] = self.first_name
         data["last_name"] = self.last_name

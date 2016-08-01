@@ -8,7 +8,7 @@ from flask import jsonify, request
 def get_all_cities(state_id):
     cities = []
     for city in City.select().where(City.state == state_id):
-        cities.append(city.to_hash())
+        cities.append(city.to_dict())
     return jsonify({"cities": cities})
 
 @app.route("/states/<state_id>/cities", methods=["POST"])
@@ -38,7 +38,7 @@ def get_state_by_id(state_id, city_id):
         city = u
     if city == None:
         return "Failed"
-    return jsonify(city.to_hash())
+    return jsonify(city.to_dict())
 
 
 @app.route("/states/<state_id>/cities/<city_id>", methods=["DELETE"])
