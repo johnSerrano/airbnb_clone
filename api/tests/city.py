@@ -30,7 +30,7 @@ class AirbnbIndexTestCase(unittest.TestCase):
 
         #test we can create a city
         resp = requests.post('http://localhost:5555/states/'+str(state_id)+'/cities', data=json.dumps({"name": "bathroom"}))
-        assert(resp.text=="Success")
+        assert(resp.status_code == 200)
 
 
     def test_b_list(self):
@@ -69,7 +69,7 @@ class AirbnbIndexTestCase(unittest.TestCase):
         resp = requests.get('http://localhost:5555/states')
         data = json.loads(resp.text)
         state_id = data["states"][0]["id"]
-        
+
         #test the app returns a 200 code from /
         self.test_a_create()
         resp = requests.get('http://localhost:5555/states/'+str(state_id)+'/cities')
@@ -77,7 +77,7 @@ class AirbnbIndexTestCase(unittest.TestCase):
         city_id = data["cities"][0]["id"]
 
         resp = requests.delete('http://localhost:5555/states/'+str(state_id)+'/cities/' + str(city_id))
-        assert(resp.text=="Success")
+        assert(resp.status_code == 200)
 
 
 if __name__ == '__main__':

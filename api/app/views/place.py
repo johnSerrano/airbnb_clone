@@ -2,6 +2,7 @@ from app import app
 from app.models.place import Place
 from app.models.city import City
 from flask import jsonify, request
+from app.views.error import error_msg
 
 @app.route("/places", methods=["GET"])
 # @app.route("/places/", methods=["GET"])
@@ -18,7 +19,7 @@ def create_places():
     content = request.get_json(force=True)
     if not all(param in content.keys() for param in ["name", "city", "owner", "description", "number_rooms", "number_bathrooms", "max_guest", "price_by_night", "latitude", "longitude"]):
         #ERROR
-        error_msg(400, 40000, "Missing parameters")
+        return error_msg(400, 40000, "Missing parameters")
     try:
         place = Place()
         place.name = content["name"]
@@ -33,21 +34,21 @@ def create_places():
         place.longitude = content["longitude"]
         place.save()
     except Exception as e:
-        error_msg(400, 400, "Error")
-    error_msg(200, 200, "Success")
+        return error_msg(400, 400, "Error")
+    return error_msg(200, 200, "Success")
 
 
 @app.route("/places/<place_id>", methods=["GET"])
 # @app.route("/places/<place_id>/", methods=["GET"])
 def get_place_by_id_aaa(place_id):
     if not isinstance(int(place_id), int):
-        error_msg(400, 400, "Error")
+        return error_msg(400, 400, "Error")
     places = Place.select().where(Place.id == int(place_id))
     place = None
     for u in places:
         place = u
     if place == None:
-        error_msg(400, 400, "Error")
+        return error_msg(400, 400, "Error")
     return jsonify(place.to_dict())
 
 
@@ -85,7 +86,7 @@ def update_place_by_id(place_id):
         for u in places:
             place = u
         if place == None:
-            error_msg(400, 400, "Error")
+            return error_msg(400, 400, "Error")
         for param in content.keys():
             try:
                 {
@@ -102,7 +103,7 @@ def update_place_by_id(place_id):
                 pass
         place.save()
     except:
-        error_msg(400, 400, "Error")
+        return error_msg(400, 400, "Error")
     return jsonify(place.to_dict())
 
 
@@ -116,11 +117,11 @@ def delete_place_by_id(place_id):
         for u in places:
             place = u
         if place == None:
-            error_msg(400, 400, "Error")
+            return error_msg(400, 400, "Error")
         place.delete_instance()
     except:
-        error_msg(400, 400, "Error")
-    error_msg(200, 200, "Success")
+        return error_msg(400, 400, "Error")
+    return error_msg(200, 200, "Success")
 
 
 @app.route("/states/<state_id>/cities/<city_id>/places", methods=["GET"])
@@ -138,14 +139,14 @@ def create_places_fds(state_id, city_id):
     content = request.get_json(force=True)
     if not all(param in content.keys() for param in ["name", "owner", "description", "number_rooms", "number_bathrooms", "max_guest", "price_by_night", "latitude", "longitude"]):
         #ERROR
-        error_msg(400, 40000, "Missing parameters")
+        return error_msg(400, 40000, "Missing parameters")
     try:
         cities = City.select().where(City.id == int(city_id))
         city = None
         for u in cities:
             city = u
         if city == None:
-            error_msg(400, 400, "Error")
+            return error_msg(400, 400, "Error")
 
         place = Place()
         place.name = content["name"]
@@ -160,5 +161,34 @@ def create_places_fds(state_id, city_id):
         place.longitude = content["longitude"]
         place.save()
     except Exception as e:
-        error_msg(400, 400, "Error")
-    error_msg(200, 200, "Success")
+        return error_msg(400, 400, "Error")
+    return error_msg(200, 200, "Success")
+
+#TODO
+@app.route("/places/<place_id>/available", methods=["POST"])
+def get_available_place(place_id):
+    # get places where none of the bookings conflict with posted date (["year", "month", "date"])
+    content = request.get_json(force=True)
+    availability = True
+    if not all(param in content.keys() for param in ["year", "month", "day"]):
+        return error_msg(400, 40000, "Missing parameters")
+    try:
+        # try to convert post params to date
+        date_to_check = datetime.date(content["year"], content["month"], content["day"])
+        # get all bookings for place before date
+        # get timedelta for each booking/date
+        # compare if timedelta is less than book["number_nights"], return avail.: false
+        pass
+    except:
+        return error_msg(400, 400, "Error")
+    return jsonify({"available": availability})
+
+@app.route("/states/<state_id>/places", methods=["GET"])
+# @app.route("/states/<state_id>/cities/<city_id>/places/", methods=["GET"])
+def get_all_places_feedbull(state_id):
+    places = []
+    # select all cities in state_id
+    cities = [city.id for city in City.select().where(City.state_id == state_id)]
+    for place in Place.select().where(Place.city in cities):
+        places.append(place.to_dict())
+    return jsonify({"places": places})

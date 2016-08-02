@@ -61,7 +61,7 @@ class AirbnbIndexTestCase(unittest.TestCase):
                 "latitude": 14.443,
                 "longitude": 123.321,
             }))
-        assert(resp.text=="Success")
+        assert(resp.status_code == 200)
 
 
     def test_b_list(self):
@@ -119,7 +119,7 @@ class AirbnbIndexTestCase(unittest.TestCase):
                 "latitude": 14.443,
                 "longitude": 123.321,
             }))
-        assert(resp.text=="Success")
+        assert(resp.status_code == 200)
 
 
     def test_e_list(self):
@@ -169,8 +169,61 @@ class AirbnbIndexTestCase(unittest.TestCase):
         place_id = data["places"][0]["id"]
 
         resp = requests.delete('http://localhost:5555/places/' + str(place_id))
-        assert(resp.text=="Success")
+        assert(resp.status_code == 200)
 
+
+    def test_g_get_places_in_state(self):
+        resp = requests.post('http://localhost:5555/states', data=json.dumps({"name": "caulifornia"}))
+        resp = requests.get('http://localhost:5555/states')
+        data = json.loads(resp.text)
+        state_id = data["states"][0]["id"]
+        #create city
+        resp = requests.post('http://localhost:5555/states/'+str(state_id)+'/cities', data=json.dumps({"name": "africa"}))
+        resp = requests.get('http://localhost:5555/states/'+str(state_id)+'/cities')
+        data = json.loads(resp.text)
+        city_id = data["cities"][0]["id"]
+        #create user (owner)
+        resp = requests.post('http://localhost:5555/users', data=json.dumps({"email": "test@test.test",
+                                                            "password": "TeSt!2#",
+                                                            "first_name": "Testy",
+                                                            "last_name": "McTest",
+                                                            "is_admin": False}))
+        resp = requests.get('http://localhost:5555/users')
+        data = json.loads(resp.text)
+        user_id = data["users"][0]["id"]
+
+        #test we can create a place
+        resp = requests.post('http://localhost:5555/places', data=json.dumps(
+            {
+                "name": "Barracks",
+                "city": city_id,
+                "owner": user_id,
+                "description": "Its cool",
+                "number_rooms": 150,
+                "number_bathrooms": 2,
+                "max_guest": 300,
+                "price_by_night": 3500,
+                "latitude": 14.443,
+                "longitude": 123.321,
+            }))
+
+        resp = requests.post('http://localhost:5555/places', data=json.dumps(
+            {
+                "name": "Some house",
+                "city": city_id,
+                "owner": user_id,
+                "description": "Its cooler",
+                "number_rooms": 3,
+                "number_bathrooms": 7,
+                "max_guest": 6,
+                "price_by_night": 35000,
+                "latitude": 44.443,
+                "longitude": 23.321,
+            }))
+
+        resp = requests.get('http://localhost:5555/states/'+str(state_id)+'/places')
+        print resp.text
+        assert(resp.status_code == 200)
 
 if __name__ == '__main__':
     unittest.main()

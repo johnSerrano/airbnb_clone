@@ -1,5 +1,6 @@
 from app import app
 from app.models.state import State
+from app.views.error import error_msg
 from flask import jsonify, request
 
 @app.route("/states", methods=["GET"])

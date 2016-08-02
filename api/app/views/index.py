@@ -1,6 +1,7 @@
 from app import app
 import datetime
 from flask import jsonify
+from app.views.error import error_msg
 
 @app.route("/", methods=["GET"])
 def index():

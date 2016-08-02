@@ -92,7 +92,7 @@ class AirbnbIndexTestCase(unittest.TestCase):
                                                 "is_validated": False,
                                                 "date_start": str(datetime.datetime.now()),
                                                 "number_nights": 5}))
-        assert(resp.text=="Success")
+        assert(resp.status_code == 200)
 
 
     def test_b_list(self):
@@ -140,7 +140,7 @@ class AirbnbIndexTestCase(unittest.TestCase):
             data=json.dumps({
                 "is_validated": True,
             }))
-        assert(resp.text != "Failed")
+        assert(resp.status_code == 200)
         resp = requests.get('http://localhost:5555/places/'+str(place_id)+'/books/' + str(book_id))
         data = json.loads(resp.text)
         assert(data["is_validated"]==True)
@@ -159,7 +159,24 @@ class AirbnbIndexTestCase(unittest.TestCase):
         book_id = data["books"][0]["id"]
 
         resp = requests.delete('http://localhost:5555/places/'+str(place_id)+'/books/' + str(book_id))
-        assert(resp.text=="Success")
+        assert(resp.status_code == 200)
+
+
+    def test_f_get(self):
+        # TODO: test if availability works
+        self.test_a_create()
+
+        resp = requests.get('http://localhost:5555/places')
+        data = json.loads(resp.text)
+        place_id = data["places"][0]["id"]
+
+        resp = requests.get('http://localhost:5555/places/'+str(place_id)+'/books')
+        data = json.loads(resp.text)
+        book_id = data["books"][0]["id"]
+
+        resp = requests.get('http://localhost:5555/places/'+str(place_id)+'/books/' + str(book_id))
+        data = json.loads(resp.text)
+        assert(data["id"]==book_id)
 
 
 if __name__ == '__main__':

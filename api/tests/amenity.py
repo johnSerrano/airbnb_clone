@@ -20,7 +20,7 @@ class AirbnbIndexTestCase(unittest.TestCase):
     def test_a_create(self):
         #test we can create a amenity
         resp = requests.post('http://localhost:5555/amenities', data=json.dumps({"name": "bathroom"}))
-        assert(resp.text=="Success")
+        assert(resp.status_code == 200)
 
 
     def test_b_list(self):
@@ -52,7 +52,7 @@ class AirbnbIndexTestCase(unittest.TestCase):
         amenity_id = data["amenities"][0]["id"]
 
         resp = requests.delete('http://localhost:5555/amenities/' + str(amenity_id))
-        assert(resp.text=="Success")
+        assert(resp.status_code == 200)        
 
 
         #TODO test get all amenities for a place

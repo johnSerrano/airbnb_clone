@@ -24,7 +24,7 @@ class AirbnbIndexTestCase(unittest.TestCase):
                                                     "first_name": "Testy",
                                                     "last_name": "McTest",
                                                     "is_admin": False}))
-        assert(resp.text=="Success")
+        assert(resp.status_code == 200)
 
 
     def test_b_list(self):
@@ -74,7 +74,7 @@ class AirbnbIndexTestCase(unittest.TestCase):
         user_id = data["users"][0]["id"]
 
         resp = requests.delete('http://localhost:5555/users/' + str(user_id))
-        assert(resp.text=="Success")
+        assert(resp.status_code == 200)
 
 
 if __name__ == '__main__':
