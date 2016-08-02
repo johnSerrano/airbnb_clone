@@ -189,6 +189,8 @@ def get_all_places_feedbull(state_id):
     places = []
     # select all cities in state_id
     cities = [city.id for city in City.select().where(City.state_id == state_id)]
-    for place in Place.select().where(Place.city in cities):
+    for place in Place.select():
+        if place.city not in cities:
+            continue
         places.append(place.to_dict())
     return jsonify({"places": places})

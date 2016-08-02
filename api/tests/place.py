@@ -159,6 +159,7 @@ class AirbnbIndexTestCase(unittest.TestCase):
             }))
 
         resp = requests.get('http://localhost:5555/states/'+str(state_id)+'/cities/'+str(city_id)+'/places')
+        assert(resp.status_code == 200)
 
 
     def test_f_delete(self):
@@ -222,7 +223,6 @@ class AirbnbIndexTestCase(unittest.TestCase):
             }))
 
         resp = requests.get('http://localhost:5555/states/'+str(state_id)+'/places')
-        print resp.text
         assert(resp.status_code == 200)
 
 if __name__ == '__main__':
