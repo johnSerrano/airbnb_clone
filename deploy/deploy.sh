@@ -19,7 +19,7 @@ apt-get upgrade -y
 apt-get install nginx gunicorn -y
 
 #configure nginx
-echo <<NGINX_DEFAULT_SERVER_AIRBNB_CONFIG
+echo `cat <<NGINX_DEFAULT_SERVER_AIRBNB_CONFIG
 server {
     listen 80 default_server;
     listen [::]:80 default_server ipv6only=on;
@@ -28,13 +28,10 @@ server {
         proxy_pass http://localhost:3000;
     }
 }
-NGINX_DEFAULT_SERVER_AIRBNB_CONFIG > /etc/nginx/sites-available/airbnb_api
+NGINX_DEFAULT_SERVER_AIRBNB_CONFIG` > /etc/nginx/sites-available/airbnb_api
 
 #enable api
 ln -s /etc/nginx/sites-available/airbnb_api /etc/nginx/sites-enabled/default
-
-#install gunicorn
-apt-get install gunicorn
 
 # deploy airbnb clone
 cd /opt/
