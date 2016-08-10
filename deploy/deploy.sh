@@ -39,7 +39,7 @@ cd /opt/
 git clone https://github.com/johnserrano/airbnb_clone.git
 
 #run gunicorn
-cd /airbnb_clone/api
-gunicorn app:app
+cd airbnb_clone/api
+gunicorn --bind 0.0.0.0:8000 wsgi:app
 
 service nginx start
