@@ -15,9 +15,9 @@
 apt-get update
 apt-get upgrade -y
 
-#install necessary programs
-apt-get install nginx gunicorn git python-pip -y
-pip install flask
+#install necessary dependencies
+apt-get install nginx gunicorn git python-pip python-dev -y
+pip install flask flask-json peewee
 
 #configure nginx
 echo `cat <<NGINX_DEFAULT_SERVER_AIRBNB_CONFIG
@@ -33,6 +33,7 @@ NGINX_DEFAULT_SERVER_AIRBNB_CONFIG` > /etc/nginx/sites-available/airbnb_api
 
 #enable api
 ln -s /etc/nginx/sites-available/airbnb_api /etc/nginx/sites-enabled/default
+service nginx start
 
 # deploy airbnb clone
 cd /opt/
@@ -41,6 +42,4 @@ git clone https://github.com/johnserrano/airbnb_clone.git
 
 #run gunicorn
 cd airbnb_clone/api
-gunicorn --bind 0.0.0.0:8000 wsgi:app
-
-service nginx start
+gunicorn --bind 0.0.0.0:3000 wsgi:app
