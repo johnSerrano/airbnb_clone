@@ -32,6 +32,7 @@ server {
 NGINX_DEFAULT_SERVER_AIRBNB_CONFIG` > /etc/nginx/sites-available/airbnb_api
 
 #enable api
+rm -f /etc/nginx/sites-enabled/default
 ln -s /etc/nginx/sites-available/airbnb_api /etc/nginx/sites-enabled/default
 service nginx start
 
