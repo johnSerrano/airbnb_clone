@@ -3,6 +3,7 @@ from app.models import db
 from app.views import *
 import config
 from flask import jsonify
+from werkzeug.contrib.fixers import ProxyFix
 
 @app.before_request
 def before_request():
@@ -23,6 +24,8 @@ def not_found(error=None):
     resp = jsonify(message)
     resp.status_code = 404
     return resp
+
+app.wsgi_app = ProxyFix(app.wsgi_app)
 
 if __name__ == '__main__':
     app.config.update(

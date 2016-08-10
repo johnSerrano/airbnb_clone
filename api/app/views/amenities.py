@@ -69,6 +69,7 @@ def create_new_amenity_in_place(place_id, amenity_id):
         place_amenity = app.models.place_amenity.PlaceAmenities()
         place_amenity.place = pas
         place_amenity.amenity = amens
+        place_amenity.save()
     except:
         return error_msg(400, 400, "Error")
     return error_msg(200, 200, "Success")
