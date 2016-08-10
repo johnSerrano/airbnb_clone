@@ -16,7 +16,8 @@ apt-get update
 apt-get upgrade -y
 
 #install necessary programs
-apt-get install nginx gunicorn git -y
+apt-get install nginx gunicorn git python-pip -y
+pip install flask
 
 #configure nginx
 echo `cat <<NGINX_DEFAULT_SERVER_AIRBNB_CONFIG
