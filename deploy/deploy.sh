@@ -34,7 +34,7 @@ NGINX_DEFAULT_SERVER_AIRBNB_CONFIG` > /etc/nginx/sites-available/airbnb_api
 #enable api
 rm -f /etc/nginx/sites-enabled/default
 ln -s /etc/nginx/sites-available/airbnb_api /etc/nginx/sites-enabled/default
-service nginx start
+service nginx reload
 
 # deploy airbnb clone
 cd /opt/
@@ -43,4 +43,6 @@ git clone https://github.com/johnserrano/airbnb_clone.git
 
 #run gunicorn
 cd airbnb_clone/api
-gunicorn --bind 0.0.0.0:3000 wsgi:app
+mkdir -p /var/log/airbnb_api
+
+gunicorn --bind 0.0.0.0:3000 wsgi:app >>/var/log/airbnb_api/airbnb.log 2>>/var/log/error.log &
