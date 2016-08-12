@@ -1,13 +1,9 @@
+from app import app
 from app.models import db
 from app.views import *
 import config
 from flask import jsonify
 from werkzeug.contrib.fixers import ProxyFix
-from flask import Flask
-from flask_json import FlaskJSON
-
-app = Flask(__name__)
-FlaskJSON(app)
 
 @app.before_request
 def before_request():

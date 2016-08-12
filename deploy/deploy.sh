@@ -16,8 +16,8 @@ apt-get update
 apt-get upgrade -y
 
 #install necessary dependencies
-apt-get install nginx gunicorn git python-pip python-dev -y
-pip install flask flask-json peewee
+apt-get install nginx gunicorn git python-pip python-dev monit -y
+pip install flask flask-json peewee flasgger
 
 #configure nginx
 echo `cat <<NGINX_DEFAULT_SERVER_AIRBNB_CONFIG
@@ -45,4 +45,5 @@ git clone https://github.com/johnserrano/airbnb_clone.git
 cd airbnb_clone/api
 mkdir -p /var/log/airbnb_api
 
-gunicorn --bind 0.0.0.0:3000 wsgi:app >>/var/log/airbnb_api/airbnb.log 2>>/var/log/error.log &
+#log redirections need to be run as root (not sudo) TODO figure out how to do this as sudo
+gunicorn --bind 0.0.0.0:3000 wsgi:app #>>/var/log/airbnb_api/airbnb.log 2>>/var/log/error.log &
