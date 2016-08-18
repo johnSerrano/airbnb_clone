@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import React from "react";
 import StateBar from "./Components/StateBar.js";
 
+// API for my backend API
 export default class Api {
   constructor() {
     this.url = "http://localhost:3000";
@@ -16,7 +17,7 @@ export default class Api {
         this.url = "http://localhost:5555";
         break;
       default:
-        throw ENVIRONMENT + "Not a valid environment.";
+        throw ENVIRONMENT + " is not a valid environment.";
     }
   }
 
@@ -24,6 +25,7 @@ export default class Api {
   // So for future compatibility page is taken as a parameter, but for now
   //  it is ignored.
   // onComplete is the callback that will be run after getting the states.
+  // TODO: use jquery somewhere else so I feel justified for importing it
   getStates(page, onComplete) {
     $.getJSON(this.url + "/states", null, onComplete);
   }
@@ -34,11 +36,13 @@ export default class Api {
   populateStateBars(leftColId) {
     this.getStates(0, function(data) {
       var leftcol = document.getElementById(leftColId);
+
       var states = []
       for (var i = 0; i < data["states"].length; i++) {
         states.push(<StateBar name={data["states"][i]["name"]} key={i} />);
         console.log(data["states"][i]["name"]);
       }
+      // Create the StateBars in the left column
       ReactDOM.render(<div>{
         states.map(function (state, i) {
           return state;
