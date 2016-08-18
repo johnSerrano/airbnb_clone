@@ -12,6 +12,7 @@ export default class LeftColumn extends Component {
       display: "flex",
       flexDirection: "column",
       alignItems: "left",
+      paddingTop: "8px"
     };
     return <div id="leftCol" style={containStyle}></div>;
   }

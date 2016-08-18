@@ -40,7 +40,6 @@ export default class Api {
       var states = []
       for (var i = 0; i < data["states"].length; i++) {
         states.push(<StateBar name={data["states"][i]["name"]} key={i} />);
-        console.log(data["states"][i]["name"]);
       }
       // Create the StateBars in the left column
       ReactDOM.render(<div>{
