@@ -1,10 +1,12 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import Header from     "./Components/Header.js";
+import React      from "react";
+import ReactDOM   from "react-dom";
+import Header     from "./Components/Header.js";
 import LeftColumn from "./Components/LeftColumn.js";
-import Content from "./Components/Content.js";
-import Footer from "./Components/Footer.js"
+import Content    from "./Components/Content.js";
+import Footer     from "./Components/Footer.js";
+import Api        from "./api.js"
 
+// Style definitions
 document.body.style.margin = 0;
 document.body.style.height = "100%";
 document.body.style.width = "100%";
@@ -22,6 +24,8 @@ var midStyle = {
   flexDirection: "row",
 }
 
+
+// Create the document
 ReactDOM.render(
   <div style={topStyle}>
     <Header />
@@ -33,3 +37,10 @@ ReactDOM.render(
   </div>,
   document.getElementById("root")
 )
+
+// Create the Api object for dynamic content.
+var api = new Api();
+
+// Create the states menu in the left column.
+// "leftCol" is the id of the left column.
+api.populateStateBars("leftCol");

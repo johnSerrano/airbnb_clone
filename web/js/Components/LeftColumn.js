@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
+import ReactDOM             from "react-dom";
 
 export default class LeftColumn extends Component {
   render() {
@@ -13,6 +13,6 @@ export default class LeftColumn extends Component {
       flexDirection: "column",
       alignItems: "left",
     };
-    return <div style={containStyle}></div>;
+    return <div id="leftCol" style={containStyle}></div>;
   }
 }
